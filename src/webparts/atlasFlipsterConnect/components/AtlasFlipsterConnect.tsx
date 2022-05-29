@@ -42,10 +42,6 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 			childItems: []
 		})
 	}
-
-
-
-
 	componentDidMount() {
 		let el = $('.my-flipster');
 		// el.flipster(); 
@@ -75,58 +71,96 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 	async getParentItems() {
 		let parentBrandArray = await this.SPService.getparentBrand()
 		console.log(parentBrandArray);
+		parentBrandArray.forEach(element => {
+			this.getChild(element.LinkID)
+		});
 		this.setState({
 			parentItems: parentBrandArray
 		})
 	}
+
+	@autobind
+	public async getChild(linkID: string) {
+		let currentChildItems = this.state.childItems;
+		let childItems = await this.SPService.getChildBrands(linkID);
+		console.log(childItems)
+		currentChildItems.push(childItems)
+		this.setState({
+			childItems: currentChildItems
+		})
+		// this.setState(
+		// 	this.state.childItems.push(childItems)
+		// )
+	}
 	public render(): React.ReactElement<IAtlasFlipsterConnectProps> {
 
 		return (
-			<div className={styles.atlasFlipsterConnect}>
-				{/* <link rel="stylesheet" href="css/flipster.min.css"></link>
+			<>
+				<h5>I am here bitch</h5>
 
-				<script src="/js/jquery.min.js"></script>
-				<script src="/js/jquery.flipster.min.js"></script> */}
-
-				<div className={styles.containter21}>
-					<div className="my-flipster">
-						<ul>
-
-							{this.state.parentItems.map((parentItem: any, i:any) => {
-								// <div>{parentItem.Title}</div>
-								<li data-flip-title={parentItem.Title} data-flip-category={parentItem.Title}>
-								<a href="https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${brandArray[i].LinkID}.aspx">
-									<div className={styles.textontheimage1} >American Whiskey<button className={styles.button} type="button" ><span style={{ color: "red", fontSize: "35px" }}> {'>'}</span></button>
-
-									</div>
-
-									<div className={styles.ImageContainer}>
-										<img className={styles.ImageClass} src="https://bgsw1.sharepoint.com/sites/CONNECTII/_layouts/15/guestaccess.aspx?share=E4NnzjCLCyhCouNjM0Se2ckB97ZeNxsZTDc8LuLVDI5BcA&e=06rWCZ" />
-									</div>
-								</a>
-							</li>
-								{ console.log(parentItem.Title) }
-							})}
-
-							{/* {this.state.parentItems.map(function (obj: { Title: any; }) {
-								console.log(obj.Title)
-
-								return obj.Title;
-							})}
-						 */}
+				<div className={styles.atlasFlipsterConnect}>
 
 
+					<div className={styles.containter21}>
+						<div className="my-flipster">
+							<ul>
+								{this.state.parentItems.map((parentItem: any, i: any) => {
+									<h5>{parentItem.Title}</h5>
+									{ console.log(parentItem.Title) }
+									{ console.log(this.state.childItems) }
+									{
+										this.state.childItems[i] ?
+											this.state.childItems[i].map((childItem: any, j: any) => {
+												<>
+													{console.log(childItem.Title)}
+													
+													<li data-flip-title="abcd" data-flip-category="bbbbb">
+														<a href="https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${brandArray[i].LinkID}.aspx">
+															<div className={styles.textontheimage1} >American Whiskey<button className={styles.button} type="button" ><span style={{ color: "red", fontSize: "35px" }}> {'>'}</span></button>
 
+															</div>
 
+															<div className={styles.ImageContainer}>
+																<img className={styles.ImageClass} src="https://bgsw1.sharepoint.com/sites/CONNECTII/_layouts/15/guestaccess.aspx?share=E4NnzjCLCyhCouNjM0Se2ckB97ZeNxsZTDc8LuLVDI5BcA&e=06rWCZ" />
+															</div>
+														</a>
+													</li>
+												</>
+											})
+											: null 
+									}
+								})}
+							</ul>
+							{/* <ul>
+								<li data-flip-title="Child1" data-flip-category="Parent1">
+									<a href="https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${brandArray[i].LinkID}.aspx">
+										<div className={styles.textontheimage1} >American Whiskey<button className={styles.button} type="button" ><span style={{ color: "red", fontSize: "35px" }}> {'>'}</span></button>
 
+										</div>
 
+										<div className={styles.ImageContainer}>
+											<img className={styles.ImageClass} src="https://bgsw1.sharepoint.com/sites/CONNECTII/_layouts/15/guestaccess.aspx?share=E4NnzjCLCyhCouNjM0Se2ckB97ZeNxsZTDc8LuLVDI5BcA&e=06rWCZ" />
+										</div>
+									</a>
+								</li>
+								<li data-flip-title="Child1" data-flip-category="Parent1">
+									<a href="https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${brandArray[i].LinkID}.aspx">
+										<div className={styles.textontheimage1} >American Whiskey<button className={styles.button} type="button" ><span style={{ color: "red", fontSize: "35px" }}> {'>'}</span></button>
 
-						</ul>
+										</div>
+
+										<div className={styles.ImageContainer}>
+											<img className={styles.ImageClass} src="https://bgsw1.sharepoint.com/sites/CONNECTII/_layouts/15/guestaccess.aspx?share=E4NnzjCLCyhCouNjM0Se2ckB97ZeNxsZTDc8LuLVDI5BcA&e=06rWCZ" />
+										</div>
+									</a>
+								</li>
+							</ul> */}
+						</div>
 					</div>
-				</div>
 
 
-			</div >
+				</div >
+			</>
 		);
 	}
 }
