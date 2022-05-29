@@ -133,6 +133,23 @@ export class SPService {
         return listItems;
     }
 
+    public async getChildBrands(parentLinkID : string) {
+        console.log("Checking... from get child.")
+        let listItems = []
+        // let listItems: any[] = [...new Set(await (await sp.web.lists.getByTitle(listName)
+        //     .items
+        //     .select("Language")
+        //     .expand().get()).map(e => (e.Language)))];
+        try{
+            listItems = await sp.web.lists.getByTitle("ModernBrand").items.filter(`ParentID eq '${parentLinkID}'`  ).get()
+            console.log(listItems)
+        }
+        catch(error){
+            console.error(error)
+        }
+
+        return listItems;
+    }
 
 
 

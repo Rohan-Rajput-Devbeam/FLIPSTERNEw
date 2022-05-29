@@ -15,9 +15,11 @@
     "jquery": {
       "path": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js",
       "globalName": "jQuery"
-   }
+    }
   },
   "localizedResources": {
-    "AtlasFlipsterConnectWebPartStrings": "lib/webparts/atlasFlipsterConnect/loc/{locale}.js"
+    "AtlasFlipsterConnectWebPartStrings": "lib/webparts/atlasFlipsterConnect/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
 }
