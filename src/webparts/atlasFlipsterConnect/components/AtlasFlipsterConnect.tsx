@@ -117,7 +117,7 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 														<img className={styles.ImageClass} src="https://bgsw1.sharepoint.com/sites/CONNECTII/_layouts/15/guestaccess.aspx?share=E4NnzjCLCyhCouNjM0Se2ckB97ZeNxsZTDc8LuLVDI5BcA&e=06rWCZ" />
 													</div>
 												</a>
-												{this.state.childItems.length-1 == i ? console.log("iam changed")  : console.log("i am samr")}
+												{this.state.childItems.length-1 == i ? console.log("iam")  : console.log("i am samr")}
 											</li>
 
 										))
