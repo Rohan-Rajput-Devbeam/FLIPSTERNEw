@@ -147,16 +147,7 @@ export class SPService {
         catch(error){
             console.error(error)
         }
-<<<<<<< HEAD
 
         return listItems;
     }
-=======
->>>>>>> 7a85ba402cd3a57cf558ba298b1ff0cf0a74cbf7
-
-        return listItems;
-    }
-
-
-
 }
