@@ -102,19 +102,12 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 
 
 					<div className={styles.containter21}>
-						<div className="my-flipster">
+						{/* <div className="my-flipster">
 							<ul>
 								{this.state.parentItems.map((parentItem: any, i: any) => {
-									<h5>{parentItem.Title}</h5>
-									{ console.log(parentItem.Title) }
-									{ console.log(this.state.childItems) }
 									{
 										this.state.childItems[i] ?
-											this.state.childItems[i].map((childItem: any, j: any) => {
-												<>
-													{console.log(childItem.Title)}
-													
-													<li data-flip-title="abcd" data-flip-category="bbbbb">
+											this.state.childItems[i].map((childItem: any, j: any) => {													<li data-flip-title="abcd" data-flip-category="bbbbb">
 														<a href="https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${brandArray[i].LinkID}.aspx">
 															<div className={styles.textontheimage1} >American Whiskey<button className={styles.button} type="button" ><span style={{ color: "red", fontSize: "35px" }}> {'>'}</span></button>
 
@@ -125,7 +118,7 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 															</div>
 														</a>
 													</li>
-												</>
+												
 											})
 											: null 
 									}
@@ -144,17 +137,26 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 									</a>
 								</li>
 								<li data-flip-title="Child1" data-flip-category="Parent1">
-									<a href="https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${brandArray[i].LinkID}.aspx">
+									<img className={styles.ImageClass} src="https://bgsw1.	<a href="https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${brandArray[i].LinkID}.aspx">
 										<div className={styles.textontheimage1} >American Whiskey<button className={styles.button} type="button" ><span style={{ color: "red", fontSize: "35px" }}> {'>'}</span></button>
 
 										</div>
 
 										<div className={styles.ImageContainer}>
-											<img className={styles.ImageClass} src="https://bgsw1.sharepoint.com/sites/CONNECTII/_layouts/15/guestaccess.aspx?share=E4NnzjCLCyhCouNjM0Se2ckB97ZeNxsZTDc8LuLVDI5BcA&e=06rWCZ" />
+										sharepoint.com/sites/CONNECTII/_layouts/15/guestaccess.aspx?share=E4NnzjCLCyhCouNjM0Se2ckB97ZeNxsZTDc8LuLVDI5BcA&e=06rWCZ" />
 										</div>
 									</a>
 								</li>
-							</ul> */}
+							</ul> 
+						</div> */}
+						<div className="my-flipster">
+							<ul>
+								<li data-flip-title="Item 1 Title" data-flip-category="Category 1">...</li>
+								<li data-flip-title="Item 2 Title" data-flip-category="Category 1">...</li>
+								<li data-flip-title="Item 3 Title" data-flip-category="Category 2">...</li>
+								<li data-flip-title="Item 4 Title" data-flip-category="Category 2">...</li>
+								<li data-flip-title="Item 5 Title">...</li>
+							</ul>
 						</div>
 					</div>
 
