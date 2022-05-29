@@ -33,7 +33,6 @@ export interface IAtlasFlipsterConnectState {
 
 export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipsterConnectProps, IAtlasFlipsterConnectState> {
 
-
 	private SPService: SPService = null;
 	constructor(props) {
 		super(props);
@@ -51,23 +50,12 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 
 		// this.getUniqueLanguages();
 		this.getParentItems();
-
-
-
 	}
 
 	@autobind
-	async getParentItems() {
-		let parentBrandArray = await this.SPService.getparentBrand()
-		console.log(parentBrandArray);
-		parentBrandArray.forEach(element => {
-			this.getChild(element.LinkID)
-		});
-		await this.setState({
-			parentItems: parentBrandArray
-		})
+	public callback() {
+		console.log('all done');
 		$('.my-flipster').flipster({
-
 			style: 'carousel',
 			loop: true,
 			buttons: 'custom',
@@ -78,19 +66,40 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 			buttonPrev: '<span  style="color:red;font-size:100px;font-weight: bold;font-family: monospace;" > <</span>',
 
 			buttonNext: '<span  style="color:red;font-size:100px;font-weight: bold;font-family: monospace;"> ></span>',
-
-
 		});
 	}
 
 	@autobind
-	public async getChild(linkID: string) {
+	async getParentItems() {
+		var itemsProcessed = 0;
+		let parentBrandArray = await this.SPService.getparentBrand()
+		console.log(parentBrandArray);
+		this.setState({
+			parentItems: parentBrandArray
+		})
+		parentBrandArray.forEach(element => {
+			itemsProcessed++;
+			this.getChild(element.LinkID, itemsProcessed)
+
+			if (itemsProcessed === parentBrandArray.length) {
+				this.callback();
+			}
+		});
+	}
+
+	@autobind
+	public async getChild(linkID: string, counter: number) {
 		let currentChildItems = this.state.childItems;
 		let childItems = await this.SPService.getChildBrands(linkID);
 		console.log(childItems)
 		currentChildItems.push(childItems)
 		this.setState({
 			childItems: currentChildItems
+		}, () => {
+			if (counter === this.state.parentItems.length) {
+				console.log("lolololo")
+				this.callback();
+			}
 		})
 	}
 
@@ -99,8 +108,6 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 		return (
 			<>
 				<div className={styles.atlasFlipsterConnect}>
-
-
 					<div className={styles.containter21}>
 						<div className="my-flipster">
 							<ul>
@@ -117,35 +124,16 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 														<img className={styles.ImageClass} src="https://bgsw1.sharepoint.com/sites/CONNECTII/_layouts/15/guestaccess.aspx?share=E4NnzjCLCyhCouNjM0Se2ckB97ZeNxsZTDc8LuLVDI5BcA&e=06rWCZ" />
 													</div>
 												</a>
-												{this.state.childItems.length-1 == i ? console.log("iam")  : console.log("i am samr")}
 											</li>
 
 										))
 										: null
-
 								))}
 							</ul>
 						</div>
 					</div>
 				</div >
-				{this.state.displayFlag == true ?
-					$('.my-flipster').flipster({
 
-						style: 'carousel',
-						loop: true,
-						buttons: 'custom',
-
-						nav: "true",
-
-						spacing: -0.23,
-						buttonPrev: '<span  style="color:red;font-size:100px;font-weight: bold;font-family: monospace;" > <</span>',
-
-						buttonNext: '<span  style="color:red;font-size:100px;font-weight: bold;font-family: monospace;"> ></span>',
-
-
-					})
-
-					: console.log(this.state.displayFlag + "     I am doomed")}
 			</>
 		);
 	}
