@@ -147,7 +147,6 @@ export class SPService {
         catch(error){
             console.error(error)
         }
-
         return listItems;
     }
 }
