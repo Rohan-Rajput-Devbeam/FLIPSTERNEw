@@ -45,15 +45,17 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 	}
 	componentDidMount() {
 		let el = $('.my-flipster');
+		this.jQueryFlipsterFunction();
 		// el.flipster(); 
 		// console.log($('.my-flipster'))
 
+		this.props.Category == undefined ? this.props.Category == "American" : console.log("Value+" + this.props.Category)
 		// this.getUniqueLanguages();
 		this.getParentItems();
 	}
 
 	@autobind
-	public callback() {
+	public jQueryFlipsterFunction() {
 		console.log('all done');
 		$('.my-flipster').flipster({
 			style: 'carousel',
@@ -62,78 +64,110 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 
 			nav: "true",
 
-			spacing: -0.23,
-			buttonPrev: '<span  style="color:red;font-size:100px;font-weight: bold;font-family: monospace;" > <</span>',
+			spacing: -0.30,
+			buttonPrev: '<span  style="color:#CC0A0A;font-size:100px;font-weight: bold;font-family: monospace;" > <</span>',
 
-			buttonNext: '<span  style="color:red;font-size:100px;font-weight: bold;font-family: monospace;"> ></span>',
+			buttonNext: '<span  style="color:#CC0A0A;font-size:100px;font-weight: bold;font-family: monospace;"> ></span>',
 		});
 	}
 
 	@autobind
 	async getParentItems() {
 		var itemsProcessed = 0;
-		let parentBrandArray = await this.SPService.getparentBrand()
+		let parentBrandArray = await this.SPService.getparentBrand(this.props.Category)
 		console.log(parentBrandArray);
 		this.setState({
 			parentItems: parentBrandArray
 		})
-		parentBrandArray.forEach(element => {
+		for(let i =0; i<parentBrandArray.length;i++){
 			itemsProcessed++;
-			this.getChild(element.LinkID, itemsProcessed)
+			console.log(parentBrandArray[i].Title)
+			await this.getChild(parentBrandArray[i].LinkID, parentBrandArray[i].Title, itemsProcessed)
+		}
+		// parentBrandArray.forEach(element => {
+		// 	itemsProcessed++;
+		// 	this.getChild(element.LinkID, itemsProcessed)
 
-			if (itemsProcessed === parentBrandArray.length) {
-				this.callback();
-			}
-		});
+		// 	if (itemsProcessed === parentBrandArray.length) {
+		// 		this.callback();
+		// 	}
+		// });
 	}
 
 	@autobind
-	public async getChild(linkID: string, counter: number) {
-		let currentChildItems = this.state.childItems;
+	public async getChild(linkID: string, linkName : string, counter: number) {
+		let currentChildItems = this.state.childItems ? this.state.childItems : [];
 		let childItems = await this.SPService.getChildBrands(linkID);
-		console.log(childItems)
+		console.log(linkID, linkName, childItems)
+		console.log(currentChildItems)
 		currentChildItems.push(childItems)
-		this.setState({
+		console.log(currentChildItems)
+		await this.setState({
 			childItems: currentChildItems
 		}, () => {
 			if (counter === this.state.parentItems.length) {
 				console.log("lolololo")
-				this.callback();
+				this.jQueryFlipsterFunction();
 			}
 		})
+		console.log(this.state.childItems)
 	}
+
+	// @autobind
+	// public async getChild(linkID: string, counter: number) {
+	// 	let currentChildItems = this.state.childItems;
+	// 	let childItems = await this.SPService.getChildBrands(linkID);
+	// 	console.log(childItems)
+	// 	currentChildItems.push(childItems)
+	// 	this.setState({
+	// 		childItems: currentChildItems
+	// 	}, () => {
+	// 		if (counter === this.state.parentItems.length) {
+	// 			console.log("lolololo")
+	// 			this.callback();
+	// 		}
+	// 	})
+	// }
 
 	public render(): React.ReactElement<IAtlasFlipsterConnectProps> {
 
 		return (
 			<>
-				<div className={styles.atlasFlipsterConnect}>
-					<div className={styles.containter21}>
-						<div className="my-flipster">
-							<ul>
-								{this.state.parentItems.map((parentItem: any, i: any) => (
-									this.state.childItems[i] ?
-										this.state.childItems[i].map((childItem: any, j: any) => (
+				{this.props.Category == null || this.props.Category == '' ? 
+				<div>Please select a valid category!</div> :
 
-											<li data-flip-title={childItem.Title} data-flip-category={parentItem.Title}>
-												<a href="https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${brandArray[i].LinkID}.aspx">
-													<div className={styles.textontheimage1} >{childItem.Title}<button className={styles.button} type="button" ><span style={{ color: "red", fontSize: "35px" }}> {'>'}</span></button>
+					<div className={styles.atlasFlipsterConnect}>
+						<div className={styles.containter21}>
+							<div className="my-flipster">
+								<ul>
 
-													</div>
-													<div className={styles.ImageContainer}>
-														<img className={styles.ImageClass} src="https://bgsw1.sharepoint.com/sites/CONNECTII/_layouts/15/guestaccess.aspx?share=E4NnzjCLCyhCouNjM0Se2ckB97ZeNxsZTDc8LuLVDI5BcA&e=06rWCZ" />
-													</div>
-												</a>
-											</li>
+									{this.state.parentItems.map((parentItem: any, i: any) => (
+										
+										this.state.childItems[i] ?
+											this.state.childItems[i].map((childItem: any, j: any) => (
 
-										))
-										: null
-								))}
-							</ul>
+												<li data-flip-title={childItem.Title} data-flip-category={parentItem.Title}>
+													<a href={`https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${childItem.LinkID}.aspx`}>
+														<div className={styles.textontheimage1} >{childItem.Title}<span style={{ color: "#cc0a0a", fontSize: "35px" }}> {' >'}</span>
+
+														</div>
+														<div className={styles.ImageContainer}>
+															<img className={styles.ImageClass} src={childItem.BrandImage.Url} />
+														</div>
+													</a>
+												</li>
+												
+											
+											))
+											:null
+											
+									))}
+								</ul>
+							</div>
 						</div>
-					</div>
-				</div >
-
+					</div >
+											
+				}
 			</>
 		);
 	}

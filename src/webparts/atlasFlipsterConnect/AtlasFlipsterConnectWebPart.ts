@@ -3,6 +3,7 @@ import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
+  PropertyPaneDropdown,
   PropertyPaneTextField
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
@@ -13,7 +14,7 @@ import { IAtlasFlipsterConnectProps } from './components/IAtlasFlipsterConnectPr
 
 export interface IAtlasFlipsterConnectWebPartProps {
   description: string;
-  
+  Category: string;
 }
 
 export default class AtlasFlipsterConnectWebPart extends BaseClientSideWebPart<IAtlasFlipsterConnectWebPartProps> {
@@ -23,7 +24,8 @@ export default class AtlasFlipsterConnectWebPart extends BaseClientSideWebPart<I
       AtlasFlipsterConnect,
       {
         description: this.properties.description,
-        context: this.context
+        context: this.context,
+        Category:this.properties.Category
       }
     );
 
@@ -51,6 +53,18 @@ export default class AtlasFlipsterConnectWebPart extends BaseClientSideWebPart<I
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
+                }),
+
+                PropertyPaneDropdown('Category', {
+                  label: 'Category',
+                  options: [
+                    { key: 'American', text: 'American' },
+                    { key: 'International', text: 'International' },
+                    { key: 'Global', text: 'Global' },
+
+
+                  ],
+                  selectedKey: 'American',
                 })
               ]
             }

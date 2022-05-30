@@ -115,15 +115,16 @@ export class SPService {
         }
     }
 
-    public async getparentBrand() {
+    public async getparentBrand(categoryName) {
         console.log("Checking....")
         let listItems = []
         // let listItems: any[] = [...new Set(await (await sp.web.lists.getByTitle(listName)
         //     .items
         //     .select("Language")
         //     .expand().get()).map(e => (e.Language)))];
+        //  categoryName = "American"
         try{
-            listItems = await sp.web.lists.getByTitle("ModernBrand").items.filter("ParentID eq null").get()
+            listItems = await sp.web.lists.getByTitle("ModernBrand").items.filter("ParentID eq null and Category eq '" + categoryName + "'").get()
             console.log(listItems)
         }
         catch(error){
