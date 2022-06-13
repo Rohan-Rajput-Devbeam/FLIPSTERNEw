@@ -29,6 +29,7 @@ export interface IAtlasFlipsterConnectState {
 	parentItems: any;
 	childItems: any;
 	displayFlag: any;
+	displayLoader: any;
 }
 
 export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipsterConnectProps, IAtlasFlipsterConnectState> {
@@ -40,7 +41,8 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 		this.state = ({
 			parentItems: [],
 			childItems: [],
-			displayFlag: false
+			displayFlag: false,
+			displayLoader: true,
 		})
 	}
 	componentDidMount() {
@@ -51,6 +53,10 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 
 		this.props.Category == undefined ? this.props.Category == "American" : console.log("Value+" + this.props.Category)
 		// this.getUniqueLanguages();
+		console.log("Start Loader")
+		this.setState({
+			displayLoader: true
+		})
 		this.getParentItems();
 	}
 
@@ -79,7 +85,7 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 		this.setState({
 			parentItems: parentBrandArray
 		})
-		for(let i =0; i<parentBrandArray.length;i++){
+		for (let i = 0; i < parentBrandArray.length; i++) {
 			itemsProcessed++;
 			console.log(parentBrandArray[i].Title)
 			await this.getChild(parentBrandArray[i].LinkID, parentBrandArray[i].Title, itemsProcessed)
@@ -95,7 +101,7 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 	}
 
 	@autobind
-	public async getChild(linkID: string, linkName : string, counter: number) {
+	public async getChild(linkID: string, linkName: string, counter: number) {
 		let currentChildItems = this.state.childItems ? this.state.childItems : [];
 		let childItems = await this.SPService.getChildBrands(linkID);
 		console.log(linkID, linkName, childItems)
@@ -106,8 +112,11 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 			childItems: currentChildItems
 		}, () => {
 			if (counter === this.state.parentItems.length) {
-				console.log("lolololo")
+				console.log("Stop Loader")
 				this.jQueryFlipsterFunction();
+				this.setState({
+					displayLoader: false
+				})
 			}
 		})
 		console.log(this.state.childItems)
@@ -133,40 +142,44 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 
 		return (
 			<>
-				{this.props.Category == null || this.props.Category == '' ? 
-				<div>Please select a valid category!</div> :
 
-					<div className={styles.atlasFlipsterConnect}>
-						<div className={styles.containter21}>
-							<div className="my-flipster">
-								<ul>
+				{
+					this.props.Category == null || this.props.Category == '' ?
+						<div>Please select a valid category!</div> :
 
-									{this.state.parentItems.map((parentItem: any, i: any) => (
-										
-										this.state.childItems[i] ?
-											this.state.childItems[i].map((childItem: any, j: any) => (
+						<div className={styles.atlasFlipsterConnect}>
+							<div className={styles.containter21}>
+								<div className="my-flipster">
+									<ul>
 
-												<li data-flip-title={childItem.Title} data-flip-category={parentItem.Title}>
-													<a href={`https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${childItem.LinkID}.aspx`}>
-														<div className={styles.textontheimage1} >{childItem.Title}<span style={{ color: "#cc0a0a", fontSize: "35px" }}> {' >'}</span>
+										{this.state.parentItems.map((parentItem: any, i: any) => (
 
-														</div>
-														<div className={styles.ImageContainer}>
-															<img className={styles.ImageClass} src={childItem.BrandImage.Url} />
-														</div>
-													</a>
-												</li>
-												
-											
-											))
-											:null
-											
-									))}
-								</ul>
+											this.state.childItems[i] ?
+												this.state.childItems[i].map((childItem: any, j: any) => (
+
+													<li data-flip-title={childItem.Title} data-flip-category={parentItem.Title}>
+														<a target="_blank" data-interception="off" rel="noopener noreferrer" href={`https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${childItem.LinkID}.aspx`}>
+															<div className={styles.textontheimage1} >{childItem.Title}<span style={{ color: "#cc0a0a", fontSize: "35px" }}> {' >'}</span>
+
+															</div>
+															<div className={styles.ImageContainer}>
+																<img className={styles.ImageClass} src={childItem.BrandImage.Url} />
+															</div>
+														</a>
+													</li>
+
+
+												))
+												: null
+
+										))}
+									</ul>
+								</div>
 							</div>
-						</div>
-					</div >
-											
+						</div >
+
+
+
 				}
 			</>
 		);

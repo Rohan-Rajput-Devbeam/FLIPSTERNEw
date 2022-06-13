@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "atlas-flipster-connect-client-side-solution",
+    "name": "Atlas_OurBrandModernView_CONNECT",
     "id": "75f0790c-1a87-4aa9-8d23-28b0f15f0336",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
@@ -16,6 +16,6 @@
     }
   },
   "paths": {
-    "zippedPackage": "solution/atlas-flipster-connect.sppkg"
+    "zippedPackage": "solution/Atlas_OurBrandModernView_CONNECT.sppkg"
   }
 }
