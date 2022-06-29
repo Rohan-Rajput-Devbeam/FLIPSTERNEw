@@ -1,0 +1,73 @@
+{
+  "_from": "jquery.flipster",
+  "_id": "jquery.flipster@1.1.5",
+  "_inBundle": false,
+  "_integrity": "sha512-wJBjNz7My1AnRLxZHG3WFRaK2H36jWUW2z6ErLQcP1YNzSBxmWR0GjiN2/PiAzbBvNayRctkS++RGFlRiBV10Q==",
+  "_location": "/jquery.flipster",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "jquery.flipster",
+    "name": "jquery.flipster",
+    "escapedName": "jquery.flipster",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/jquery.flipster/-/jquery.flipster-1.1.5.tgz",
+  "_shasum": "b8fa1caa066eef5ad6148e023f9b2aa32cc25f9a",
+  "_spec": "jquery.flipster",
+  "_where": "D:\\FLIPSTERNEw",
+  "author": {
+    "name": "Adrien Delessert",
+    "email": "a@drien.com"
+  },
+  "bugs": {
+    "url": "https://github.com/drien/jquery-flipster/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Adrien Delessert",
+      "email": "a@drien.com"
+    },
+    {
+      "name": "Stephen Shaw",
+      "email": "stephen@brokensquare.com"
+    }
+  ],
+  "deprecated": false,
+  "description": "Responsive coverflow-style carousel plugin for jQuery",
+  "devDependencies": {
+    "grunt": "~1.0.3",
+    "grunt-contrib-less": "~2.0.0",
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-contrib-watch": "~1.1.0",
+    "less-plugin-autoprefix": "~2.0.0"
+  },
+  "homepage": "https://github.com/drien/jquery-flipster",
+  "keywords": [
+    "coverflow",
+    "jquery",
+    "carousel",
+    "flipster",
+    "jquery-plugin",
+    "ecosystem:jquery"
+  ],
+  "license": "MIT",
+  "main": "./dist/jquery.flipster.min.js",
+  "name": "jquery.flipster",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drien/jquery-flipster.git"
+  },
+  "style": [
+    "./dist/jquery.flipster.min.css"
+  ],
+  "version": "1.1.5"
+}

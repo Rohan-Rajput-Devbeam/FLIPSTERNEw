@@ -5,9 +5,14 @@ import { SPService } from '../Services/SPServices';
 
 import { escape } from '@microsoft/sp-lodash-subset';
 import * as $ from "jquery";
-import 'jquery.flipster/dist/jquery.flipster.min.css'
-import "jquery.flipster/dist/jquery.flipster.min.js"
-import "jquery.flipster/dist/jquery.flipster.css"
+// import 'jquery.flipster/dist/jquery.flipster.min.css'
+// import "jquery.flipster/dist/jquery.flipster.min.js"
+// import "jquery.flipster/dist/jquery.flipster.css"
+
+import '../Flipster/jquery.flipster/dist/jquery.flipster.min.css'
+import '../Flipster/jquery.flipster/dist/jquery.flipster.min.js'
+import '../Flipster/jquery.flipster/dist/jquery.flipster.css'
+
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
@@ -30,6 +35,7 @@ export interface IAtlasFlipsterConnectState {
 	childItems: any;
 	displayFlag: any;
 	displayLoader: any;
+	displayFlag2: any;
 }
 
 export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipsterConnectProps, IAtlasFlipsterConnectState> {
@@ -43,21 +49,22 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 			childItems: [],
 			displayFlag: false,
 			displayLoader: true,
+			displayFlag2: true
 		})
 	}
-	componentDidMount() {
+	async componentDidMount() {
 		let el = $('.my-flipster');
-		this.jQueryFlipsterFunction();
+
 		// el.flipster(); 
 		// console.log($('.my-flipster'))
 
 		this.props.Category == undefined ? this.props.Category == "American" : console.log("Value+" + this.props.Category)
 		// this.getUniqueLanguages();
+		await this.getParentItems();
+		this.jQueryFlipsterFunction();
+
 		console.log("Start Loader")
-		this.setState({
-			displayLoader: true
-		})
-		this.getParentItems();
+
 	}
 
 	@autobind
@@ -74,7 +81,11 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 			buttonPrev: '<span  style="color:#CC0A0A;font-size:100px;font-weight: bold;font-family: monospace;" > <</span>',
 
 			buttonNext: '<span  style="color:#CC0A0A;font-size:100px;font-weight: bold;font-family: monospace;"> ></span>',
-		});
+		})
+		this.setState({
+			// displayLoader: true
+			displayFlag2: false
+		})
 	}
 
 	@autobind
@@ -142,44 +153,48 @@ export default class AtlasFlipsterConnect extends React.Component<IAtlasFlipster
 
 		return (
 			<>
-
 				{
 					this.props.Category == null || this.props.Category == '' ?
 						<div>Please select a valid category!</div> :
 
 						<div className={styles.atlasFlipsterConnect}>
-							<div className={styles.containter21}>
-								<div className="my-flipster">
-									<ul>
+							{
+								this.state.displayFlag2 == false ?
+									<div className={styles.containter21}>
+										<div className="my-flipster">
+											<ul>
+												{this.state.parentItems.map((parentItem: any, i: any) => (
+													this.state.childItems[i] ?
+														this.state.childItems[i].map((childItem: any, j: any) => (
+															<li data-flip-title={childItem.Title} data-flip-category={parentItem.Title}>
+																<a target="_blank" data-interception="off" rel="noopener noreferrer" href={`https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${childItem.LinkID}.aspx`}>
+																	{/* <div className={styles.textontheimage1} >{childItem.Title}<span style={{ color: "#cc0a0a", fontSize: "35px" }}> {' >'}</span>
+																	</div> */}
+																	<div className={styles.ImageContainer}>
+																		<img className={styles.ImageClass} src={childItem.BrandImage.Url} />
+																	</div>
+																</a>
+															</li>
+														))
+														: null
+												))}
+											</ul>
+										</div>
+									</div>
+									:
+									<div className={styles.container}>
+										Loading
+										<div className={styles.flip}>
+											<div><div>Data</div></div>
+											<div><div>Webpart</div></div>
+											<div><div>Content</div></div>
+										</div>
+										Please Wait!
+									</div>
+							}
 
-										{this.state.parentItems.map((parentItem: any, i: any) => (
 
-											this.state.childItems[i] ?
-												this.state.childItems[i].map((childItem: any, j: any) => (
-
-													<li data-flip-title={childItem.Title} data-flip-category={parentItem.Title}>
-														<a target="_blank" data-interception="off" rel="noopener noreferrer" href={`https://bgsw1.sharepoint.com/sites/CONNECTII/SitePages/${childItem.LinkID}.aspx`}>
-															<div className={styles.textontheimage1} >{childItem.Title}<span style={{ color: "#cc0a0a", fontSize: "35px" }}> {' >'}</span>
-
-															</div>
-															<div className={styles.ImageContainer}>
-																<img className={styles.ImageClass} src={childItem.BrandImage.Url} />
-															</div>
-														</a>
-													</li>
-
-
-												))
-												: null
-
-										))}
-									</ul>
-								</div>
-							</div>
 						</div >
-
-
-
 				}
 			</>
 		);

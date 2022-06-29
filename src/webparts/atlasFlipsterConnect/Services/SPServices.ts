@@ -124,8 +124,12 @@ export class SPService {
         //     .expand().get()).map(e => (e.Language)))];
         //  categoryName = "American"
         try{
-            listItems = await sp.web.lists.getByTitle("ModernBrand").items.filter("ParentID eq null and Category eq '" + categoryName + "'").get()
+            // listItems = await sp.web.lists.getByTitle("ModernBrand").items.filter("ParentID eq null and Category eq '" + categoryName + "'").get()
+            // console.log(listItems)
+            listItems = await sp.web.lists.getByTitle("ModernBrand").items.filter("ParentID eq null").get()
             console.log(listItems)
+
+
         }
         catch(error){
             console.error(error)
