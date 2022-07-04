@@ -1,4 +1,6 @@
 # atlas-flipster-connect
+![image](https://user-images.githubusercontent.com/98163327/177162026-16c657e8-06bf-42a0-bbe3-5cc20ef6f9ec.png)
+
 
 ## Summary
 
